@@ -1,11 +1,13 @@
 :root {
-    --primary-color: #2563eb;
-    --secondary-color: #1e40af;
-    --background-color: #f3f4f6;
-    --card-background: #ffffff;
-    --text-primary: #000000;
-    --text-secondary: #222224;
-    --border-color: #e5e7eb;
+    --primary-color: #4CAF50; /* Green */
+    --secondary-color: #2C3E50; /* Dark Blue */
+    --background-color: #ECF0F1; /* Light Gray */
+    --card-background: #FFFFFF; /* White */
+    --text-primary: #34495E; /* Dark Gray */
+    --text-secondary: #7F8C8D; /* Medium Gray */
+    --border-color: #BDC3C7; /* Light Gray */
+    --button-color: #2980B9; /* Blue */
+    --button-hover-color: #3498DB; /* Lighter Blue */
 }
 
 * {
@@ -22,7 +24,7 @@ body {
 }
 
 .dashboard {
-    max-width: 1400px;
+    
     margin: 0 auto;
     padding: 2rem;
 }
@@ -40,11 +42,11 @@ body {
 }
 
 .total-workers {
-    background-color: var(--primary-color);
+    background-color: blue;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    font-weight: 600;
+    font-weight: 900;
 }
 
 .filters {
@@ -82,6 +84,58 @@ body {
     color: var(--text-primary);
     font-size: 1rem;
 }
+
+.stats-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    width: fit-content;
+    margin: 15px auto;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.stats-container:hover {
+    transform: scale(1.05);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Style du texte pour la moyenne d'âge */
+#average-age {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFD700;
+    margin-left: 6px;
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#average-age {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFD700;
+    margin: 0 5px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Animation d'apparition du chiffre */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 
 .workers-grid {
     display: grid;
@@ -183,8 +237,22 @@ body {
 .error-message {
     text-align: center;
     padding: 2rem;
-    color: #991b1b;
-    background-color: #fee2e2;
+    color: #ffffff;
+    background-color: var(--primary-color); /* Green */
     border-radius: 0.5rem;
     margin: 1rem 0;
+}
+
+.button {
+    background-color: var(--button-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: var(--button-hover-color); /* Lighter Blue */
 }
