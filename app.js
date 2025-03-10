@@ -102,7 +102,7 @@ function initialiserGraphiques() {
         data: {
             labels: ['18-25', '25-35', '35-45', '45-50', '50-65'],
             datasets: [{
-                label: 'Travailleurs par Tranche d\'âge',
+                label: 'Ouvrirs par Tranche d\'âge',
                 data: [0, 0, 0, 0],
                 backgroundColor: '#34D399',
                 borderColor: '#10B981',
@@ -154,8 +154,22 @@ function mettreAJourGraphiques(donneesTravailleurs) {
     }, {});
     
     const typesContrat = ['AGRI STRATEGIE', 'AGRI SUPPORT', 'BEST PROFIL', 'FARM LABOR', 'AGRICONOMIE'];
-    graphiqueContrat.data.datasets[0].data = typesContrat.map(type => comptesContrat[type] || 0);
+    
+  
+    const totalContrats = Object.values(comptesContrat).reduce((sum, value) => sum + value, 0);
+    
+    
+    const dataWithPercentage = typesContrat.map(type => {
+        const count = comptesContrat[type] || 0;
+        const percentage = totalContrats > 0 ? ((count / totalContrats) * 100).toFixed(1) : 0;
+        return { count, label: `${type} (${percentage}%)` };
+    });
+    
+    // تحديث الرسم البياني
+    graphiqueContrat.data.datasets[0].data = dataWithPercentage.map(item => item.count);
+    graphiqueContrat.data.labels = dataWithPercentage.map(item => item.label);
     graphiqueContrat.update();
+    
 
   
     const comptesAge = [0, 0, 0, 0, 0]; 
