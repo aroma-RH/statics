@@ -32,24 +32,24 @@
             </select>
             <select id="statusFilter">
                 <option value="">Tous les statuts</option>
-                <option value="Active">Actif</option>
+                <option value="Active">Active</option>
                 <option value="Changement">Changement</option>
             </select>
         </div>
-
+        <div class="chart-card">
+            <h3>Travailleurs par Groupe</h3>
+            <canvas id="groupChart"></canvas>
+        </div><br>
         <div class="charts-container">
             <!-- Chart for "Travailleurs par Groupe" -->
-            <div class="chart-card">
-                <h3>Travailleurs par Groupe</h3>
-                <canvas id="groupChart"></canvas>
-            </div>
+            
         
             <!-- Dashboard Content with Multiple Charts -->
             <div class="dashboard-content">
                 <div class="charts-container">
                     <!-- Chart for "Répartition du Statut des Travailleurs" -->
                     <div class="chart-card">
-                        <h3>Répartition du Statut des Travailleurs</h3>
+                        <h3>Manque de contract</h3>
                         <canvas id="statusChart"></canvas>
                     </div>
         
@@ -63,7 +63,11 @@
                     <div class="chart-card">
                         <h3>Répartition par Âge</h3>
                         <canvas id="ageChart"></canvas>
+                        <div class="stats-container">
+                            <p><strong>Moyenne d'âge des travailleurs:</strong> <span id="average-age">Calcul en cours...</span> ans</p>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
