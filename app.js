@@ -12,7 +12,7 @@ const boutonFermer = modal.querySelector('.close-button');
 let graphiqueStatut, graphiqueGroupe, graphiqueContrat;
 
 // Point de terminaison de l'API Google Sheets
-const URL_API_SHEETS = 'https://script.google.com/macros/s/AKfycbx1_L8ndzZd2W59PcCItx5jM8IsUM0Vs8_977JZm1I1ImncsTI7Q098CLjxK_fvHEWtiQ/exec';
+const URL_API_SHEETS = 'https://script.google.com/macros/s/AKfycbxBDB4vT23xUpgZbFuqy89CImaVuWGVZcnurZOK2GZok8ZBQNMts7Fh3AWnKFA398GrJA/exec';
 
 // État
 let travailleurs = [];
