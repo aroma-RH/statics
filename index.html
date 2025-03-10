@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <h1>Tableau de Bord de Gestion des Travailleurs</h1>
+            <div class="total-workers">
+                Total des Travailleurs: <span id="totalWorkersCount">0</span>
+            </div>
+        </header>
+
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Rechercher des travailleurs...">
+            
+            <select id="groupFilter">
+                <option value="">Tous les groupes</option>
+            </select>
+            <select id="contractFilter">
+                <option value="">Tous les contrats</option>
+                <option value="AGRI STRATEGIE">AGRI STRATEGIE</option>
+                <option value="AGRI SUPPORT">AGRI SUPPORT</option>
+                <option value="BEST PROFIL">BEST PROFIL</option>
+                <option value="FARM LABOR">FARM LABOR</option>
+                <option value="AGRICONOMIE">AGRICONOMIE</option>
+            </select>
+            <select id="statusFilter">
+                <option value="">Tous les statuts</option>
+                <option value="Active">Actif</option>
+                <option value="Changement">Changement</option>
+            </select>
+        </div>
+
+        <div class="charts-container">
+            <!-- Chart for "Travailleurs par Groupe" -->
+            <div class="chart-card">
+                <h3>Travailleurs par Groupe</h3>
+                <canvas id="groupChart"></canvas>
+            </div>
+        
+            <!-- Dashboard Content with Multiple Charts -->
+            <div class="dashboard-content">
+                <div class="charts-container">
+                    <!-- Chart for "Répartition du Statut des Travailleurs" -->
+                    <div class="chart-card">
+                        <h3>Répartition du Statut des Travailleurs</h3>
+                        <canvas id="statusChart"></canvas>
+                    </div>
+        
+                    <!-- Chart for "Types de Contrats" -->
+                    <div class="chart-card">
+                        <h3>Types de Contrats</h3>
+                        <canvas id="contractChart"></canvas>
+                    </div>
+        
+                    <!-- Chart for "Répartition par Âge" -->
+                    <div class="chart-card">
+                        <h3>Répartition par Âge</h3>
+                        <canvas id="ageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+            <div id="workersGrid" class="workers-grid"></div>
+        </div>
+    </div>
+
+    <div id="workerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
