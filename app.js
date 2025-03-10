@@ -18,13 +18,12 @@ const URL_API_SHEETS = 'https://script.google.com/macros/s/AKfycbx1_L8ndzZd2W59P
 let travailleurs = [];
 let groupes = new Set();
 
-// Initialiser les Graphiques
-// Graphiques
+
 let graphiqueAge;
 
-// Initialiser les Graphiques
+
 function initialiserGraphiques() {
-    // Graphique de distribution des statuts
+
     const statutCtx = document.getElementById('statusChart').getContext('2d');
     graphiqueStatut = new Chart(statutCtx, {
         type: 'doughnut',
@@ -47,7 +46,7 @@ function initialiserGraphiques() {
         }
     });
 
-    // Graphique de distribution des groupes
+
     const groupeCtx = document.getElementById('groupChart').getContext('2d');
     graphiqueGroupe = new Chart(groupeCtx, {
         type: 'bar',
@@ -74,7 +73,6 @@ function initialiserGraphiques() {
         }
     });
 
-    // Graphique de type de contrat
     const contratCtx = document.getElementById('contractChart').getContext('2d');
     graphiqueContrat = new Chart(contratCtx, {
         type: 'pie',
@@ -97,12 +95,12 @@ function initialiserGraphiques() {
         }
     });
 
-    // Graphique de distribution des âges
+
     const ageCtx = document.getElementById('ageChart').getContext('2d');
     graphiqueAge = new Chart(ageCtx, {
         type: 'bar',
         data: {
-            labels: ['18-25', '26-35', '36-45', '46-60', '+60'],
+            labels: ['18-25', '25-35', '35-45', '45-50', '50-65'],
             datasets: [{
                 label: 'Travailleurs par Tranche d\'âge',
                 data: [0, 0, 0, 0],
@@ -125,9 +123,9 @@ function initialiserGraphiques() {
     });
 }
 
-// Mettre à jour les Graphiques
+
 function mettreAJourGraphiques(donneesTravailleurs) {
-    // Mettre à jour le Graphique de Statut
+
     const comptesStatut = donneesTravailleurs.reduce((acc, travailleur) => {
         acc[travailleur.status] = (acc[travailleur.status] || 0) + 1;
         return acc;
@@ -139,7 +137,7 @@ function mettreAJourGraphiques(donneesTravailleurs) {
     ];
     graphiqueStatut.update();
 
-    // Mettre à jour le Graphique de Groupe
+  
     const comptesGroupe = donneesTravailleurs.reduce((acc, travailleur) => {
         acc[travailleur.group] = (acc[travailleur.group] || 0) + 1;
         return acc;
@@ -149,7 +147,7 @@ function mettreAJourGraphiques(donneesTravailleurs) {
     graphiqueGroupe.data.datasets[0].data = Object.values(comptesGroupe);
     graphiqueGroupe.update();
 
-    // Mettre à jour le Graphique de Contrat
+   
     const comptesContrat = donneesTravailleurs.reduce((acc, travailleur) => {
         acc[travailleur.contractType] = (acc[travailleur.contractType] || 0) + 1;
         return acc;
@@ -159,21 +157,21 @@ function mettreAJourGraphiques(donneesTravailleurs) {
     graphiqueContrat.data.datasets[0].data = typesContrat.map(type => comptesContrat[type] || 0);
     graphiqueContrat.update();
 
-    // Mettre à jour le Graphique de Tranches d'Âge
-    const comptesAge = [0, 0, 0, 0, 0]; // Indices pour les tranches d'âge [18-25, 26-35, 36-45, 46-60]
+  
+    const comptesAge = [0, 0, 0, 0, 0]; 
     
     donneesTravailleurs.forEach(travailleur => {
         const age = travailleur.AGE;
-        if (age >= 18 && age <= 25) {
+        if (age >= 18 && age < 25) {
             comptesAge[0] += 1;
-        } else if (age >= 26 && age <= 35) {
+        } else if (age >= 25 && age < 35) {
             comptesAge[1] += 1;
-        } else if (age >= 36 && age <= 45) {
+        } else if (age >= 35 && age < 45) {
             comptesAge[2] += 1;
-        } else if (age >= 46 && age <= 60) {
+        } else if (age >= 45 && age < 50) {
             comptesAge[3] += 1;
-        } else if (age > 60) {
-            comptesAge[4] += 1; // New category for age greater than 60
+        } else if (age >= 50 && age < 65) {
+            comptesAge[4] += 1; 
         }
         
     });
@@ -197,15 +195,31 @@ function calculerJoursTravailles(dateDebut) {
     return Math.floor(differenceTemps / (1000 * 3600 * 24));
 }
 
-async function recupererTravailleurs() {
+function afficherMoyenneAge(averageAge) {
+    // Select the element where you want to display the average age
+    const averageAgeElement = document.getElementById('average-age');
+    averageAgeElement.textContent = averageAge.toFixed(2);  // Display with 2 decimal places
+}
+
+async function recupererTravailleurs() {0
     try {
         const reponse = await fetch(URL_API_SHEETS);
         if (!reponse.ok) throw new Error('Échec de la récupération des données des travailleurs');
         const donnees = await reponse.json();
 
+        let totalAge = 0;
+        let totalWorkers = 0;
+
         travailleurs = donnees.map(travailleur => {
             const statut = obtenirStatutEnFonctionDeDateDebut(travailleur[13]);
             const joursTravailles = calculerJoursTravailles(travailleur[13]);
+            const age = parseInt(travailleur[5], 10); // Ensure age is an integer
+
+            // Check if age is a valid number and only add to total if it is
+            if (!isNaN(age) && age > 0) {
+                totalAge += age;
+                totalWorkers += 1;
+            }
 
             return {
                 name: travailleur[2],
@@ -217,16 +231,21 @@ async function recupererTravailleurs() {
                 status: statut,
                 poste: travailleur[12],
                 transport: travailleur[15],
-                AGE: travailleur[5],
+                AGE: age,
                 daysWorked: joursTravailles
             };
         });
+
+        // Calculate the average age
+        const averageAge = totalWorkers > 0 ? totalAge / totalWorkers : 0;
+        afficherMoyenneAge(averageAge);  // Call to update the average age in the UI
 
         travailleurs.forEach(travailleur => groupes.add(travailleur.group));
         afficherTravailleurs(travailleurs);
         remplirFiltreGroupe();
         calculerEtAfficherNombreTotalTravailleurs(travailleurs);
         mettreAJourGraphiques(travailleurs);
+
     } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);
         grilleTravailleurs.innerHTML = `
@@ -236,6 +255,8 @@ async function recupererTravailleurs() {
         `;
     }
 }
+
+
 
 function calculerEtAfficherNombreTotalTravailleurs(listeTravailleurs) {
     const totalTravailleurs = listeTravailleurs.length;
