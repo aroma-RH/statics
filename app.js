@@ -214,7 +214,12 @@ function afficherMoyenneAge(averageAge) {
     const averageAgeElement = document.getElementById('average-age');
     averageAgeElement.textContent = averageAge.toFixed(2);  // Display with 2 decimal places
 }
-
+function formaterDate(date) {
+  // Function to format the date as dd/mmm/yyyy
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  const dateObj = new Date(date);
+  return dateObj.toLocaleDateString('en-GB', options).replace(/ /g, '/');
+}
 async function recupererTravailleurs() {0
     try {
         const reponse = await fetch(URL_API_SHEETS);
@@ -225,9 +230,11 @@ async function recupererTravailleurs() {0
         let totalWorkers = 0;
 
         travailleurs = donnees.map(travailleur => {
-            const statut = obtenirStatutEnFonctionDeDateDebut(travailleur[13]);
-            const joursTravailles = calculerJoursTravailles(travailleur[13]);
+            const statut = obtenirStatutEnFonctionDeDateDebut(travailleur[23]);
+            const joursTravailles = calculerJoursTravailles(travailleur[23]);
             const age = parseInt(travailleur[5], 10); // Ensure age is an integer
+            const startDateFormatted = formaterDate(travailleur[23]);
+            
 
             // Check if age is a valid number and only add to total if it is
             if (!isNaN(age) && age > 0) {
@@ -241,7 +248,7 @@ async function recupererTravailleurs() {0
                 group: travailleur[10],
                 CIN: travailleur[3],
                 contractType: travailleur[7],
-                startDate: travailleur[23],
+                startDate: startDateFormatted,
                 status: statut,
                 poste: travailleur[12],
                 transport: travailleur[15],
