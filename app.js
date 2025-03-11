@@ -241,7 +241,7 @@ async function recupererTravailleurs() {0
                 group: travailleur[10],
                 CIN: travailleur[3],
                 contractType: travailleur[7],
-                startDate: travailleur[13],
+                startDate: travailleur[23],
                 status: statut,
                 poste: travailleur[12],
                 transport: travailleur[15],
