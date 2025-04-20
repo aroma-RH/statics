@@ -42,7 +42,7 @@ body {
 }
 
 .total-workers {
-    background-color: blue;
+    background-color: rgb(0, 121, 107);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
@@ -156,9 +156,18 @@ body {
 
 
 .workers-grid {
-    display: grid;
+    display: none;
+    transition: opacity 0.3s ease-in-out;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
+}
+
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    height: 0;
+    overflow: hidden;
 }
 
 .worker-card {
