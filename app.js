@@ -53,7 +53,7 @@ function initialiserGraphiques() {
         data: {
             labels: [],
             datasets: [{
-                label: 'Travailleurs par Groupe',
+                label: 'Travailleurs par Equipe',
                 data: [],
                 backgroundColor: '#2563eb',
                 borderColor: '#1e40af',
@@ -210,12 +210,12 @@ function calculerJoursTravailles(dateDebut) {
 }
 
 function afficherMoyenneAge(averageAge) {
-    // Select the element where you want to display the average age
+    
     const averageAgeElement = document.getElementById('average-age');
-    averageAgeElement.textContent = averageAge.toFixed(2);  // Display with 2 decimal places
+    averageAgeElement.textContent = averageAge.toFixed(2);  
 }
 function formaterDate(date) {
-  // Function to format the date as dd/mmm/yyyy
+
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const dateObj = new Date(date);
   return dateObj.toLocaleDateString('en-GB', options).replace(/ /g, '/');
@@ -230,10 +230,10 @@ async function recupererTravailleurs() {0
         let totalWorkers = 0;
 
         travailleurs = donnees.map(travailleur => {
-            const statut = obtenirStatutEnFonctionDeDateDebut(travailleur[23]);
-            const joursTravailles = calculerJoursTravailles(travailleur[23]);
+            const statut = obtenirStatutEnFonctionDeDateDebut(travailleur[13]);
+            const joursTravailles = calculerJoursTravailles(travailleur[13]);
             const age = parseInt(travailleur[5], 10); // Ensure age is an integer
-            const startDateFormatted = formaterDate(travailleur[23]);
+            const startDateFormatted = formaterDate(travailleur[13]);
             
 
             // Check if age is a valid number and only add to total if it is
@@ -260,7 +260,7 @@ async function recupererTravailleurs() {0
         // Calculate the average age
         const averageAge = totalWorkers > 0 ? totalAge / totalWorkers : 0;
         afficherMoyenneAge(averageAge);  // Call to update the average age in the UI
-
+        
         travailleurs.forEach(travailleur => groupes.add(travailleur.group));
         afficherTravailleurs(travailleurs);
         remplirFiltreGroupe();
@@ -285,36 +285,34 @@ function calculerEtAfficherNombreTotalTravailleurs(listeTravailleurs) {
     elementTotalTravailleurs.textContent = totalTravailleurs;
 }
 
-// Remplir et trier le filtre de Groupe
-function remplirFiltreGroupe() {
-    filtreGroupe.innerHTML = '<option value="">Tous les Groupes</option>';
 
-    // Convertir le Set en un tableau et le trier par ordre alphabétique
+function remplirFiltreGroupe() {
+    filtreGroupe.innerHTML = '<option value="">Tous les Equipes</option>';
+
     const groupesTries = Array.from(groupes).sort();
 
-    // Ajouter les groupes triés comme options
     groupesTries.forEach(groupe => {
         const option = document.createElement('option');
         option.value = groupe;
         option.textContent = groupe;
         filtreGroupe.appendChild(option);
     });
+    
 }
 
-// Remplir et trier le filtre de Contrat
 function remplirFiltreContrat(typesContrat) {
     filtreContrat.innerHTML = '<option value="">Tous les Contrats</option>';
 
-    // Trier les types de contrat par ordre alphabétique (A à Z)
     const contratsTries = typesContrat.sort();
 
-    // Ajouter les types de contrats triés comme options
     contratsTries.forEach(contrat => {
         const option = document.createElement('option');
         option.value = contrat;
         option.textContent = contrat;
         filtreContrat.appendChild(option);
-    });
+    })
+   
+    
 }
 
 function creerCarteTravailleur(travailleur) {
@@ -417,19 +415,35 @@ document.addEventListener('DOMContentLoaded', () => {
     initialiserGraphiques();
     recupererTravailleurs();
 });
-
-$(document).ready(function() {
-    // Exemple de données de groupe
-    // Remplir le dropdown avec les groupes
+$(document).ready(function () {
     const selectGroupe = $("#groupFilter");
-    groupes.sort(); // Trier les groupes par ordre alphabétique de A à Z
-    groupes.forEach(groupe => {
-      selectGroupe.append(new Option(groupe, groupe));
-    });
 
-    // Initialiser select2 pour la fonctionnalité de recherche
-    selectGroupe.select2({
-      placeholder: "Sélectionner un groupe",
-      allowClear: true
-    });
+    // تحويل Set إلى Array
+    const groupesArray = Array.from(groupes);
+
+    if (Array.isArray(groupesArray)) {
+        groupesArray.sort();
+        groupesArray.forEach(groupe => {
+            selectGroupe.append(new Option(groupe, groupe));
+        });
+    } else {
+        console.error("❌ 'groupes' n'est pas une liste.", groupesArray);
+    }
+
+    
 });
+
+function toggleGood() {
+    const elements = document.getElementsByClassName("workers-grid");
+
+    for (let i = 0; i < elements.length; i++) {
+        const el = elements[i];
+        const currentDisplay = window.getComputedStyle(el).display;
+
+        if (currentDisplay === "none") {
+            el.style.display = "grid";
+        } else {
+            el.style.display = "none";
+        }
+    }
+}
