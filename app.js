@@ -40,38 +40,56 @@ function initialiserGraphiques() {
             responsive: true,
             plugins: {
                 legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-
-
-    const groupeCtx = document.getElementById('groupChart').getContext('2d');
-    graphiqueGroupe = new Chart(groupeCtx, {
-        type: 'bar',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Travailleurs par Equipe',
-                data: [],
-                backgroundColor: '#2563eb',
-                borderColor: '#1e40af',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
+                    position: 'bottom',
+                    labels: {
+                        color: 'white' 
                     }
                 }
             }
         }
+        
     });
+
+
+    const groupeCtx = document.getElementById('groupChart').getContext('2d');
+graphiqueGroupe = new Chart(groupeCtx, {
+    type: 'bar',
+    data: {
+        labels: [], 
+        datasets: [{
+            label: 'Travailleurs par Equipe',
+            data: [], 
+            backgroundColor: '#2563eb',
+            borderColor: '#1e40af',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'white' 
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1,
+                    color: 'white' 
+                }
+            },
+            x: {
+                ticks: {
+                    color: 'white' 
+                }
+            }
+        }
+    }
+});
+
 
     const contratCtx = document.getElementById('contractChart').getContext('2d');
     graphiqueContrat = new Chart(contratCtx, {
@@ -82,17 +100,22 @@ function initialiserGraphiques() {
                 data: [0, 0, 0, 0, 0],
                 backgroundColor: ['#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6'],
                 borderColor: ['#2563eb', '#1e40af', '#1d4ed8', '#1e3a8a', '#1e3a8a'],
+                
                 borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'bottom',
+            labels: {
+                color: 'white' 
             }
         }
+    }
+}
+
     });
 
 
@@ -115,11 +138,18 @@ function initialiserGraphiques() {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1
+                        stepSize: 1,
+                        color: 'white' 
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'white' 
                     }
                 }
             }
         }
+        
     });
 }
 
@@ -176,15 +206,15 @@ function mettreAJourGraphiques(donneesTravailleurs) {
     
     donneesTravailleurs.forEach(travailleur => {
         const age = travailleur.AGE;
-        if (age >= 18 && age < 25) {
+        if (age >= 18 && age <= 25) {
             comptesAge[0] += 1;
-        } else if (age >= 25 && age < 35) {
+        } else if (age > 25 && age <= 35) {
             comptesAge[1] += 1;
-        } else if (age >= 35 && age < 45) {
+        } else if (age > 35 && age <= 45) {
             comptesAge[2] += 1;
-        } else if (age >= 45 && age < 50) {
+        } else if (age > 45 && age <= 50) {
             comptesAge[3] += 1;
-        } else if (age >= 50 && age < 65) {
+        } else if (age > 50 && age <= 65) {
             comptesAge[4] += 1; 
         }
         
@@ -297,6 +327,7 @@ function remplirFiltreGroupe() {
         option.textContent = groupe;
         filtreGroupe.appendChild(option);
     });
+    afficherTravailleurs(travailleurs);
     
 }
 
@@ -311,7 +342,7 @@ function remplirFiltreContrat(typesContrat) {
         option.textContent = contrat;
         filtreContrat.appendChild(option);
     })
-   
+    afficherTravailleurs(travailleurs);
     
 }
 
@@ -346,7 +377,7 @@ function afficherDetailsTravailleur(travailleur) {
     corpsModal.innerHTML = `
         <div>
             <h2 style="font-size: 1.5rem; font-weight: 600;">${travailleur.name}</h2>
-            <p style="color: #6b7280;">${travailleur.role}</p>
+            <p style="color:rgb(1, 9, 25);">${travailleur.role}</p>
         </div>
         <div>
             <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem;"> Informations</h3>
