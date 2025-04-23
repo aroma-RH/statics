@@ -1,10 +1,10 @@
 :root {
-    --primary-color: #4CAF50; /* Green */
-    --secondary-color: #2C3E50; /* Dark Blue */
+    --primary-color: #4CAF50;
+    --secondary-color: #2C3E50; 
     --background-color: #ECF0F1; /* Light Gray */
-    --card-background: #FFFFFF; /* White */
-    --text-primary: #34495E; /* Dark Gray */
-    --text-secondary: #7F8C8D; /* Medium Gray */
+    --card-background: rgb(0, 121, 107); /* White */
+    --text-primary: #ffffff; /* Dark Gray */
+    --text-secondary: #eefafa; /* Medium Gray */
     --border-color: #BDC3C7; /* Light Gray */
     --button-color: #2980B9; /* Blue */
     --button-hover-color: #3498DB; /* Lighter Blue */
@@ -58,10 +58,13 @@ body {
 
 .filters input,
 .filters select {
+    background-color: rgb(0, 121, 107);
+    color: #eefafa;
     padding: 0.5rem;
     border: 1px solid var(--border-color);
     border-radius: 0.375rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
+    font-weight: 700;
     width: 100%;
 }
 
@@ -108,7 +111,7 @@ body {
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #2196F3, #1976D2);
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 18px;
     font-weight: bold;
     padding: 5px 5px;
